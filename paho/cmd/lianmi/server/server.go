@@ -18,7 +18,7 @@ func main() {
 
 	server := flag.String("server", "127.0.0.1:1883", "The MQTT server to connect to ex: 127.0.0.1:1883")
 	topic := flag.String("topic", "#", "Topic to subscribe to")
-	qos := flag.Int("qos", 2, "The QoS to subscribe to messages at")
+	qos := flag.Int("qos", 1, "The QoS to subscribe to messages at")
 	clientid := flag.String("clientid", "dispatcher", "A clientid for the connection")
 	username := flag.String("username", "", "A username to authenticate to the MQTT server")
 	password := flag.String("password", "", "Password to match username")
@@ -82,7 +82,7 @@ func main() {
 
 	sa, err := c.Subscribe(context.Background(), &paho.Subscribe{
 		Subscriptions: map[string]paho.SubscribeOptions{
-			*topic: {QoS: byte(*qos)},
+			*topic: {QoS: byte(*qos), NoLocal: true},
 		},
 	})
 	if err != nil {
@@ -104,6 +104,5 @@ func main() {
 		log.Println("code:", m.Properties.User.Get("code"))
 		log.Println("errormsg:", m.Properties.User.Get("errormsg"))
 		log.Println("Received message:", string(m.Payload))
-		// _ = m
 	}
 }

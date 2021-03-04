@@ -140,9 +140,6 @@ func main() {
 			Properties: props,
 		}
 
-		// for i := 0; i < 10; i++ {
-
-		// }
 		for range time.Tick(time.Millisecond * 100) {
 			// fmt.Println("Hello TigerwolfC")
 			if _, err = c.Publish(context.Background(), pb); err != nil {
